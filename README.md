@@ -51,5 +51,3 @@ Este repositório contém o código-fonte principal da aplicação, atualmente e
 - **Ambientes QA/PROD em VMs Linux (baixo custo)**
 
 ---
-
-## 📦 Estrutura do Projeto
