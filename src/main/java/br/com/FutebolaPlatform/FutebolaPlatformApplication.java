@@ -1,4 +1,4 @@
-package br.com.futebola_platform;
+package br.com.FutebolaPlatform;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
