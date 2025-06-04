@@ -18,6 +18,7 @@ public class JogadorModel {
     private String posicaoPreferida;
     private String nivelHabilidade;
     private String pernaBoa;
+    private List<PartidasModel> partidas;
     //dataNascimento (LocalDate) TODO estudar como implementar
     // grupoId ou List<Grupo> TODO Jogador pode pertencer a um ou mais grupos. Relacionamento importante.
     // presencas (ex: List<PresencaModel>) TODO Histórico de presença em partidas — pode ser útil no futuro.
