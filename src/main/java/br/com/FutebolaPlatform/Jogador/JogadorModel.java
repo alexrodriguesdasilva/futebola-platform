@@ -25,7 +25,6 @@ public class JogadorModel { //Só existe se a pessoa for realmente jogador.
     private String posicaoPreferida;
     private Integer nivelHabilidade;
     private String pernaBoa;
-    private LocalDate dataNascimento;
 
     @OneToOne
     @JoinColumn(name = "cadastro_id")
@@ -34,5 +33,4 @@ public class JogadorModel { //Só existe se a pessoa for realmente jogador.
     @OneToMany(mappedBy = "jogador")
     private List<ParticipacaoModel> participacoes;
 
-    // TODO: Mapear grupos futuramente
 }
