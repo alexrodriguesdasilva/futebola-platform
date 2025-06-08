@@ -1,4 +1,4 @@
-package br.com.FutebolaPlatform.PagamentoModel;
+package br.com.FutebolaPlatform.Pagamento;
 
 import br.com.FutebolaPlatform.Jogador.JogadorModel;
 import br.com.FutebolaPlatform.TipoPagamento;

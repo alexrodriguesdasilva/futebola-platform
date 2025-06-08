@@ -16,7 +16,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TurmaModel {
+public class TurmasModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
