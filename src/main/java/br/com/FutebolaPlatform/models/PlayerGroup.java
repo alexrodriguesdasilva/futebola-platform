@@ -1,8 +1,8 @@
 package br.com.FutebolaPlatform.models;
 
-import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -17,30 +17,30 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity 
-@Table(name = "TB_USER") 
+@Entity
+@Table( name = "TB_PLAYER_GROUP")
 @Getter
 @Setter
-public class UserModel implements Serializable { 
-    private static final long serialVersionUID = 1L;
-
+public class PlayerGroup {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    
-    @Column(nullable = false)
+
+    @Column(nullable = false, unique = true)
     private String name;
 
-    private String nickname;
+    @Column(name = "day_of_week")
+    private DayOfWeek dayOfWeek;
 
-    @Column(name = "birth_date")
-    private LocalDate birthDate;
+    @Column(name = "start_time")
+    private LocalTime startTime;
 
-    private String phone;
-    
-    @Column(unique = true)
-    private String email; 
-    
+    @Column(name = "end_time")
+    private LocalTime endTime;
+
+    private Boolean active;
+
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
