@@ -21,7 +21,7 @@ import lombok.Setter;
 @Table( name = "TB_PLAYER_GROUP")
 @Getter
 @Setter
-public class PlayerGroup {
+public class PlayerGroupModel {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
