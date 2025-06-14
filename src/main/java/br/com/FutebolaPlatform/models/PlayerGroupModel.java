@@ -60,4 +60,8 @@ public class PlayerGroupModel {
     // Um grupo de jogadores pode ter várias partidas
     @OneToMany(mappedBy = "playerGroupModel", fetch = FetchType.LAZY)
     private Set<MatchModel> matches = new HashSet<>();
+
+    // Relação entre Grupo e Jogadores
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
+    private Set<PlayerGroupMemberModel> players = new HashSet<>();
 }

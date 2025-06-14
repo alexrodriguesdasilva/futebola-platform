@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.FutebolaPlatform.enums.DominantFootEnum;
 import br.com.FutebolaPlatform.enums.PreferredPositionEnum;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -45,7 +46,16 @@ public class PlayerModel {
     @Enumerated(EnumType.STRING)
     private DominantFootEnum dominantFoot;
 
+    // Lista de pagamentos realizados por este jogador
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // Evita que a lista de pagamentos seja exibida em respostas JSON (ex: ao retornar um Player pela API)
     @OneToMany(mappedBy = "playerModel", fetch = FetchType.LAZY) // Um jogador pode ter varios Pagamentos
-    private Set<PlayerPaymentModel> playerModels = new HashSet<>(); // Lista de pagamentos realizados por este jogador
+    private Set<PlayerPaymentModel> playerModels = new HashSet<>();
+
+    // Participações do jogador em partidas
+    @OneToMany(mappedBy = "player", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<MatchPlayerModel> matchParticipations = new HashSet<>();
+
+    // Relação entre Jogadores e Grupos 
+    @OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
+    private Set<PlayerGroupMemberModel> groupMemberships = new HashSet<>();
 }

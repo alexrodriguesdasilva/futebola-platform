@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import br.com.FutebolaPlatform.enums.MatchStatusEnum;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -81,6 +82,10 @@ public class MatchModel implements Serializable {
     // Uma partida pode ter vários pagamentos associados
     @OneToMany(mappedBy = "matchModel", fetch = FetchType.LAZY)
     private Set<PlayerPaymentModel> payments = new HashSet<>();
+
+    // Jogadores que participaram dessa partida
+    @OneToMany(mappedBy = "match", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<MatchPlayerModel> players = new HashSet<>();
 
     // Define valores padrão antes de persistir no banco
     @PrePersist

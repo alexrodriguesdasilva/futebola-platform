@@ -1,0 +1,270 @@
+@Entity
+@Table( name = "TB_MATCH")
+public class MatchModel implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    // Identificador único da partida
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    // Data e hora da partida
+    @Column(name = "match_date", nullable = false)
+    private LocalDateTime matchDate;
+
+    // Local onde a partida acontecerá ou aconteceu
+    @Column(nullable = false)
+    private String location;
+
+    // Nome ou identificação do time A
+    @Column(name = "team_a", nullable = false)
+    private String teamA;
+
+    // Nome ou identificação do time B
+    @Column(name = "team_b", nullable = false)
+    private String teamB;
+
+    // Placar do time A
+    @Column(name = "score_team_a")
+    private Integer scoreTeamA;
+
+    // Placar do time B
+    @Column(name = "score_team_b")
+    private Integer scoreTeamB;
+
+    // Status da partida: SCHEDULED, ONGOING, FINISHED, CANCELED
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MatchStatusEnum status;
+
+    // Timestamp de criação do registro
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    // Timestamp de última atualização do registro
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    // Muitas partidas podem estar associadas a um grupo de jogadores (não obrigatório)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "match_group_id", nullable = true) // FK opcional
+    private PlayerGroupModel playerGroupModel;
+
+    // Uma partida pode ter vários pagamentos associados
+    @OneToMany(mappedBy = "matchModel", fetch = FetchType.LAZY)
+    private Set<PlayerPaymentModel> payments = new HashSet<>();
+
+    // Jogadores que participaram dessa partida
+    @OneToMany(mappedBy = "match", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<MatchPlayerModel> players = new HashSet<>();
+
+    // Define valores padrão antes de persistir no banco
+    @PrePersist
+    public void setDefaults() {
+        if (this.teamA == null || this.teamA.trim().isEmpty()) {
+            this.teamA = "Time A";
+        }
+        if (this.teamB == null || this.teamB.trim().isEmpty()) {
+            this.teamB = "Time B";
+        }
+        if (this.status == null) {
+            this.status = MatchStatusEnum.SCHEDULED;
+        }
+    }
+}
+
+public class MatchPlayerModel implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    // Jogador participante
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "player_id", nullable = false)
+    private PlayerModel player;
+
+    // Partida associada
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "match_id", nullable = false)
+    private MatchModel match;
+
+    // Exemplo de dado adicional: presença confirmada
+    @Column(name = "confirmed", nullable = false)
+    private boolean confirmed = false;
+
+    // Timestamp de registro
+    @Column(name = "joined_at")
+    private LocalDateTime joinedAt = LocalDateTime.now();
+}
+package br.com.FutebolaPlatform.models;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Entity
+@Table(name = "TB_PLAYER_GROUP_MEMBER")
+@Getter
+@Setter
+public class PlayerGroupMemberModel implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    // Jogador vinculado
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "player_id", nullable = false)
+    private PlayerModel player;
+
+    // Grupo ao qual pertence
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id", nullable = false)
+    private PlayerGroupModel group;
+
+    // Exemplo de campo adicional: data de entrada no grupo
+    @Column(name = "joined_at", nullable = false)
+    private LocalDateTime joinedAt = LocalDateTime.now();
+}
+public class PlayerGroupModel {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    @Column(nullable = false, unique = true)
+    private String name;
+
+    @Column(name = "day_of_week")
+    private DayOfWeek dayOfWeek;
+
+    @Column(name = "start_time")
+    private LocalTime startTime;
+
+    @Column(name = "end_time")
+    private LocalTime endTime;
+
+    private Boolean active;
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    // Um grupo pode ter Any pagamentos
+    @OneToMany(mappedBy = "playerGroupModel", fetch = FetchType.LAZY)
+    private Set<PlayerPaymentModel> payments = new HashSet<>();
+
+    // Um grupo de jogadores pode ter várias partidas
+    @OneToMany(mappedBy = "playerGroupModel", fetch = FetchType.LAZY)
+    private Set<MatchModel> matches = new HashSet<>();
+
+    // Relação entre Grupo e Jogadores
+    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
+    private Set<PlayerGroupMemberModel> players = new HashSet<>();
+}
+public class PlayerModel {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToOne
+    @JoinColumn(name = "user_id") // Relaciona a qual usuario esse cadastro de jogador pertence
+    private UserModel user;
+
+    @Enumerated(EnumType.STRING)
+    private PreferredPositionEnum preferredPosition;
+
+    @Enumerated(EnumType.STRING)
+    private DominantFootEnum dominantFoot;
+
+    // Lista de pagamentos realizados por este jogador
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // Evita que a lista de pagamentos seja exibida em respostas JSON (ex: ao retornar um Player pela API)
+    @OneToMany(mappedBy = "playerModel", fetch = FetchType.LAZY) // Um jogador pode ter varios Pagamentos
+    private Set<PlayerPaymentModel> playerModels = new HashSet<>();
+
+    // Participações do jogador em partidas
+    @OneToMany(mappedBy = "player", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<MatchPlayerModel> matchParticipations = new HashSet<>();
+
+    // Relação entre Jogadores e Grupos 
+    @OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
+    private Set<PlayerGroupMemberModel> groupMemberships = new HashSet<>();
+}
+public class PlayerPaymentModel {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    @Column(nullable = false)
+    private Double amount;  // valor pago
+
+    @Column(nullable = false)
+    private LocalDate paymentDate;  // data do pagamento
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PaymentTypeEnum paymentType;
+
+    private String description;
+
+    @ManyToOne // Um pagamento pode ser feito por apenas 1 jogador
+    @JoinColumn(name = "player_id") // Referencia de qual chave estrangeira para referenciar que um pagamento é de um jogador
+    private PlayerModel playerModel; 
+
+    // Vários pagamentos podem estar associados a um grupo
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "player_group_id", nullable = true) // FK opcional
+    private PlayerGroupModel playerGroupModel; // Grupo relacionado ao pagamento (se houver)
+
+    // Muitos Pagamentos pode estar associado a uma partida (opcional)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "match_id", nullable = true)
+    private MatchModel matchModel;
+}
+public class UserModel implements Serializable { 
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+    
+    @Column(nullable = false)
+    private String name;
+
+    private String nickname;
+
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
+
+    private String phone;
+    
+    @Column(unique = true)
+    private String email; 
+    
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private PlayerModel player;
+}
