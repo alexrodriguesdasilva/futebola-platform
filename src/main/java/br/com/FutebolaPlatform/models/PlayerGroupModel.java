@@ -3,6 +3,8 @@ package br.com.FutebolaPlatform.models;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,9 +12,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,4 +52,12 @@ public class PlayerGroupModel {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    // Um grupo pode ter Any pagamentos
+    @OneToMany(mappedBy = "playerGroupModel", fetch = FetchType.LAZY)
+    private Set<PlayerPaymentModel> payments = new HashSet<>();
+
+    // Um grupo de jogadores pode ter várias partidas
+    @OneToMany(mappedBy = "playerGroupModel", fetch = FetchType.LAZY)
+    private Set<MatchModel> matches = new HashSet<>();
 }

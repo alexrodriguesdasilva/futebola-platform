@@ -1,5 +1,7 @@
 package br.com.FutebolaPlatform.models;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,11 +11,14 @@ import br.com.FutebolaPlatform.enums.PreferredPositionEnum;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -39,4 +44,8 @@ public class PlayerModel {
 
     @Enumerated(EnumType.STRING)
     private DominantFootEnum dominantFoot;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // Evita que a lista de pagamentos seja exibida em respostas JSON (ex: ao retornar um Player pela API)
+    @OneToMany(mappedBy = "playerModel", fetch = FetchType.LAZY) // Um jogador pode ter varios Pagamentos
+    private Set<PlayerPaymentModel> playerModels = new HashSet<>(); // Lista de pagamentos realizados por este jogador
 }
