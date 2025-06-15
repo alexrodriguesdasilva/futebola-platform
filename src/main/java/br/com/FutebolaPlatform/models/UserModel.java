@@ -39,6 +39,7 @@ public class UserModel implements Serializable {
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
+    @Column(unique = true, nullable = false)
     private String phone;
     
     @Column(unique = true)

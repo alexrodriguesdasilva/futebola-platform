@@ -1,0 +1,42 @@
+### Create User
+POST http://localhost:8080/users
+Content-Type: application/json
+
+@userId = fc95a279-9ee6-41f2-b8a0-b069967d3e1a
+
+### Get All Users
+GET http://localhost:8080/users
+
+### Get User By ID
+# Substitua o UUID abaixo pelo ID gerado na criação
+GET http://localhost:8080/users/{{userId}}
+
+### Create User
+# Rota da API para criar um novo usuario
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "name": "Kleber",
+  "nickname": "Juiz",
+  "birthDate": "1990-03-03",
+  "phone": "11999999922",
+  "email": "kleber@futebola.com"
+}
+
+### Update User
+# Primeiro defina o userId acima com o ID gerado ao criar o usuário
+PUT http://localhost:8080/users/{{userId}}
+Content-Type: application/json
+
+{
+  "name": "Alex Atualizado",
+  "nickname": "Brabo Atualizado",
+  "birthDate": "1990-01-01",
+  "phone": "11988887777",
+  "email": "alex.atualizado@futebola.com"
+}
+
+### Delete User
+# Substitua o UUID abaixo pelo ID gerado na criação
+DELETE http://localhost:8080/users/{{userId}}
