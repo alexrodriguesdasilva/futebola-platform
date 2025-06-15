@@ -17,11 +17,11 @@ POST http://localhost:8080/users
 Content-Type: application/json
 
 {
-  "name": "Kleber",
-  "nickname": "Juiz",
-  "birthDate": "1990-03-03",
-  "phone": "11999999922",
-  "email": "kleber@futebola.com"
+  "name": "Marcel",
+  "nickname": "Zagueiro Louco",
+  "birthDate": "1995-03-03",
+  "phone": "11988887778",
+  "email": "zagueiro@futebola.com"
 }
 
 ### Update User
