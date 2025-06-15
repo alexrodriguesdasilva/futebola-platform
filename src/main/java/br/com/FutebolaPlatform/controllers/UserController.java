@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.FutebolaPlatform.models.UserModel;
 import br.com.FutebolaPlatform.services.UserService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
@@ -25,7 +26,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserModel> createUser(@RequestBody UserModel user) {
+    public ResponseEntity<UserModel> createUser(@RequestBody @Valid UserModel user) {
         return ResponseEntity.ok(userService.save(user));
     }
 

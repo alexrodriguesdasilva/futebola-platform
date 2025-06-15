@@ -1,8 +1,4 @@
-### Create User
-POST http://localhost:8080/users
-Content-Type: application/json
-
-@userId = fc95a279-9ee6-41f2-b8a0-b069967d3e1a
+@userId = d718b959-f778-4404-bd42-521faa67c178
 
 ### Get All Users
 GET http://localhost:8080/users
@@ -17,10 +13,10 @@ POST http://localhost:8080/users
 Content-Type: application/json
 
 {
-  "name": "Marcel",
-  "nickname": "Zagueiro Louco",
+  "name": "lasanha",
+  "nickname": "Zagueiro Louco 2",
   "birthDate": "1995-03-03",
-  "phone": "11988887778",
+  "phone": "11988887777",
   "email": "zagueiro@futebola.com"
 }
 
