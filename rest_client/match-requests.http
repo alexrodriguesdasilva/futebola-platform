@@ -1,0 +1,31 @@
+@matchId = c5430ee0-5e67-47a9-a2f4-11de20a375fa
+
+### Buscar todas as partidas (GET /matches)
+GET http://localhost:8080/matches
+
+### Buscar uma partida por ID (GET /matches/{id})
+GET http://localhost:8080/matches/{{matchId}}
+
+### Este exemplo não envia o campo status, pois o valor padrão será SCHEDULED.
+POST http://localhost:8080/matches
+Content-Type: application/json
+
+{
+    "matchDate": "2025-07-01T19:00:00",
+    "location": "Estádio Municipal",
+    "teamA": "Time Azul",
+    "teamB": "Time Verde"
+}
+
+### Atualizar parcialmente (PATCH /matches/{id})
+PATCH http://localhost:8080/matches/{{matchId}}
+Content-Type: application/json
+
+{
+  "scoreTeamA": 2,
+  "scoreTeamB": 3,
+  "status": "FINISHED"
+}
+
+### Deletar uma partida (DELETE /matches/{id})
+DELETE http://localhost:8080/matches/{{matchId}}

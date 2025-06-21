@@ -35,6 +35,14 @@ Content-Type: application/json
   "paymentStatus": "VALID"
 }
 
+### Atualizando apenas um campo
+PATCH http://localhost:8080/payments/{{userId}}
+Content-Type: application/json
+
+{
+  "description": "Pagamento após vencimento"
+}
+
 ### Delete User
 # Substitua o UUID abaixo pelo ID gerado na criação
 DELETE http://localhost:8080/payments/{{userId}}

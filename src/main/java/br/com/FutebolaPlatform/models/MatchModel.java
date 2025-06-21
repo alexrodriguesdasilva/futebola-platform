@@ -78,19 +78,18 @@ public class MatchModel implements Serializable {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // Muitas partidas podem estar associadas a um grupo de jogadores (não obrigatório)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "match_group_id", nullable = true) // FK opcional
-    private PlayerGroupModel playerGroupModel;
-
     // Uma partida pode ter vários pagamentos associados
-    // Comentado por enquanto até implementarmos a parte de pagamentos em partidas
-    // @OneToMany(mappedBy = "matchModel", fetch = FetchType.LAZY)
-    // private Set<PlayerPaymentModel> payments = new HashSet<>();
+    @OneToMany(mappedBy = "matchModel", fetch = FetchType.LAZY)
+    private Set<PlayerPaymentModel> payments = new HashSet<>();
 
-    // Jogadores que participaram dessa partida
-    @OneToMany(mappedBy = "match", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<MatchPlayerModel> players = new HashSet<>();
+    // // Muitas partidas podem estar associadas a um grupo de jogadores (não obrigatório)
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "match_group_id", nullable = true) // FK opcional
+    // private PlayerGroupModel playerGroupModel;
+
+    // // Jogadores que participaram dessa partida
+    // @OneToMany(mappedBy = "match", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    // private Set<MatchPlayerModel> players = new HashSet<>();
 
     // Define valores padrão antes de persistir no banco
     @PrePersist

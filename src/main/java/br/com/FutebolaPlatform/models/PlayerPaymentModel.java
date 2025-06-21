@@ -63,10 +63,8 @@ public class PlayerPaymentModel {
     private PlayerGroupModel playerGroupModel;
     */
 
-    // FUTURO: Relacionamento com partida (opcional)
-    /*
+    // Um pagamento pode talvez está associado a uma partida
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "match_id")
     private MatchModel matchModel;
-    */
 }
