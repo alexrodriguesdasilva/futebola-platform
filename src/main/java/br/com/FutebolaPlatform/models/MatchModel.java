@@ -24,8 +24,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table( name = "TB_MATCH")
 public class MatchModel implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -80,8 +84,9 @@ public class MatchModel implements Serializable {
     private PlayerGroupModel playerGroupModel;
 
     // Uma partida pode ter vários pagamentos associados
-    @OneToMany(mappedBy = "matchModel", fetch = FetchType.LAZY)
-    private Set<PlayerPaymentModel> payments = new HashSet<>();
+    // Comentado por enquanto até implementarmos a parte de pagamentos em partidas
+    // @OneToMany(mappedBy = "matchModel", fetch = FetchType.LAZY)
+    // private Set<PlayerPaymentModel> payments = new HashSet<>();
 
     // Jogadores que participaram dessa partida
     @OneToMany(mappedBy = "match", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

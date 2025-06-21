@@ -34,17 +34,17 @@ public class UserModel implements Serializable {
     private UUID id;
     
     @Column(nullable = false)
-    @NotBlank(message = "O nome não pode ser em branco.")
+    @NotBlank(message = "O nome não pode estar vazio.")
     private String name;
 
     private String nickname;
 
     @Column(name = "birth_date")
-    @NotNull(message = "A data de nascimento não pode ser nula.")
+    @NotNull(message = "A data de nascimento não pode ser vazia.")
     private LocalDate birthDate;
 
     @Column(unique = true, nullable = false)
-    @NotBlank(message = "O telefone não pode estar em branco.")
+    @NotBlank(message = "O telefone não pode estar vazio.")
     private String phone;
     
     @Column(unique = true)

@@ -1,4 +1,4 @@
-@userId = d718b959-f778-4404-bd42-521faa67c178
+@userId = 4bd70cc6-b0f0-4104-99b0-4ef4c53023e4
 
 ### Get All Users
 GET http://localhost:8080/users
@@ -13,11 +13,10 @@ POST http://localhost:8080/users
 Content-Type: application/json
 
 {
-  "name": "lasanha",
-  "nickname": "Zagueiro Louco 2",
+  "name": "Marcel 2",
+  "nickname": "Zagueiro Louco 3",
   "birthDate": "1995-03-03",
-  "phone": "11988887777",
-  "email": "zagueiro@futebola.com"
+  "phone": "147999999999"
 }
 
 ### Update User

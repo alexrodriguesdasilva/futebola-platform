@@ -1,0 +1,30 @@
+@userId = dd4689fb-e309-4612-8e5b-1e6d1ff614ce
+
+### Get All players
+GET http://localhost:8080/players
+
+### Get User By ID
+# Substitua o UUID abaixo pelo ID gerado na criação
+GET http://localhost:8080/players/{{userId}}
+
+### Create User
+# Rota da API para criar um novo usuario
+POST http://localhost:8080/players
+Content-Type: application/json
+
+{
+  "userId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+}
+
+### Update User
+# Primeiro defina o userId acima com o ID gerado ao criar o usuário
+PUT http://localhost:8080/players/{{userId}}
+Content-Type: application/json
+
+{
+
+}
+
+### Delete User
+# Substitua o UUID abaixo pelo ID gerado na criação
+DELETE http://localhost:8080/players/{{userId}}

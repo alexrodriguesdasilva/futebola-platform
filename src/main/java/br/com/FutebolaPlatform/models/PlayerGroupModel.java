@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -53,15 +54,20 @@ public class PlayerGroupModel {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    // Um grupo pode ter Any pagamentos
-    @OneToMany(mappedBy = "playerGroupModel", fetch = FetchType.LAZY)
-    private Set<PlayerPaymentModel> payments = new HashSet<>();
+    // // Um grupo pode ter Any pagamentos
+    // @OneToMany(mappedBy = "playerGroupModel", fetch = FetchType.LAZY)
+    // private Set<PlayerPaymentModel> payments = new HashSet<>();
 
-    // Um grupo de jogadores pode ter várias partidas
-    @OneToMany(mappedBy = "playerGroupModel", fetch = FetchType.LAZY)
-    private Set<MatchModel> matches = new HashSet<>();
+    // // Um grupo de jogadores pode ter várias partidas
+    // @OneToMany(mappedBy = "playerGroupModel", fetch = FetchType.LAZY)
+    // private Set<MatchModel> matches = new HashSet<>();
 
-    // Relação entre Grupo e Jogadores
-    @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
-    private Set<PlayerGroupMemberModel> players = new HashSet<>();
+    // // Relação entre Grupo e Jogadores
+    // @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
+    // private Set<PlayerGroupMemberModel> players = new HashSet<>();
+
+    // public Optional<PlayerPaymentModel> findById(UUID playerGroupId) {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'findById'");
+    // }
 }
