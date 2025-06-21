@@ -1,4 +1,4 @@
-@userId = 4bd70cc6-b0f0-4104-99b0-4ef4c53023e4
+@userId = 820e9032-f009-4069-b306-9af3402815a6
 
 ### Get All payments
 GET http://localhost:8080/payments
@@ -14,7 +14,7 @@ Content-Type: application/json
 
 {
   "playerId": "1651758c-e983-459e-9fca-13d5df607da9",
-  "amount": 150.00,
+  "amount": "150.00",
   "paymentDate": "2025-06-21",
   "paymentType": "PIX",
   "paymentCategory": "ONE_TIME",
@@ -23,15 +23,16 @@ Content-Type: application/json
 
 ### Update User
 # Primeiro defina o userId acima com o ID gerado ao criar o usuário
-PUT http://localhost:8080/payments/{{userId}}
+PATCH http://localhost:8080/payments/{{userId}}
 Content-Type: application/json
 
 {
-  "amount": 50.0,
-  "paymentDate": "2025-06-21",
-  "paymentType": "PIX",
-  "description": "Mensalidade junho",
-  "playerId": "UUID-DO-JOGADOR"
+  "amount": 200.50,
+  "paymentDate": "2025-06-22",
+  "paymentType": "CREDIT_CARD",
+  "paymentCategory": "RECURRING",
+  "description": "Atualização do pagamento",
+  "paymentStatus": "VALID"
 }
 
 ### Delete User

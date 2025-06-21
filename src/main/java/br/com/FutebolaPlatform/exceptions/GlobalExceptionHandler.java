@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,12 +18,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationException(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
-
-        ex.getBindingResult().getFieldErrors().forEach(error -> {
-            errors.put(error.getField(), error.getDefaultMessage());
-        });
-
+        ex.getBindingResult().getFieldErrors().forEach(error -> 
+            errors.put(error.getField(), error.getDefaultMessage())
+        );
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    // 🔴 playerId não encontrado
+    @ExceptionHandler(PlayerNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handlePlayerNotFound(PlayerNotFoundException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
     // 🔴 UUID malformado ou erro manual no service
@@ -53,11 +60,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Map<String, String>> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
         Map<String, String> error = new HashMap<>();
-
         Throwable rootCause = ex.getRootCause();
-        String causeMessage = rootCause != null && rootCause.getMessage() != null 
-            ? rootCause.getMessage().toLowerCase() 
-            : "";
+        String causeMessage = rootCause != null && rootCause.getMessage() != null ? rootCause.getMessage().toLowerCase() : "";
 
         if (causeMessage.contains("email")) {
             error.put("error", "E-mail já está em uso.");
@@ -68,6 +72,14 @@ public class GlobalExceptionHandler {
         }
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    // 🔴 Tratamento para ResponseStatusException (ex: 404, 403 etc customizados)
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<Map<String, String>> handleResponseStatusException(ResponseStatusException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getReason() != null ? ex.getReason() : "Erro não especificado");
+        return new ResponseEntity<>(error, ex.getStatusCode());
     }
 
     // ⚠️ Fallback para qualquer exceção não tratada

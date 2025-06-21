@@ -1,9 +1,14 @@
 package br.com.FutebolaPlatform.models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import br.com.FutebolaPlatform.enums.PaymentCategoryEnum;
+import br.com.FutebolaPlatform.enums.PaymentStatusEnum;
 import br.com.FutebolaPlatform.enums.PaymentTypeEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,6 +30,14 @@ public class PlayerPaymentModel {
     @Column(nullable = false)
     private LocalDate paymentDate;  // Data do pagamento
 
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_type", nullable = false)
     private PaymentTypeEnum paymentType;
@@ -38,6 +51,10 @@ public class PlayerPaymentModel {
     @ManyToOne(optional = false, fetch = FetchType.LAZY) // Relação obrigatória
     @JoinColumn(name = "player_id", nullable = false)
     private PlayerModel playerModel;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PaymentStatusEnum paymentStatus = PaymentStatusEnum.VALID; // valor padrão
 
     // FUTURO: Relacionamento com grupo (opcional)
     /*
