@@ -1,6 +1,7 @@
 package br.com.FutebolaPlatform.dtos;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import br.com.FutebolaPlatform.enums.PaymentCategoryEnum;
 import br.com.FutebolaPlatform.enums.PaymentStatusEnum;
@@ -17,4 +18,5 @@ public class PlayerPaymentPatchDTO {
     private PaymentTypeEnum paymentType;
     private PaymentCategoryEnum paymentCategory;
     private PaymentStatusEnum paymentStatus;
+    private String groupId;
 }

@@ -3,6 +3,7 @@ package br.com.FutebolaPlatform.services;
 import br.com.FutebolaPlatform.dtos.MatchRequestDTO;
 import br.com.FutebolaPlatform.dtos.MatchResponseDTO;
 import br.com.FutebolaPlatform.enums.MatchStatusEnum;
+import br.com.FutebolaPlatform.exceptions.MatchAlreadyFinishedException;
 import br.com.FutebolaPlatform.dtos.MatchPatchDTO;
 import br.com.FutebolaPlatform.models.MatchModel;
 import br.com.FutebolaPlatform.repositories.MatchRepository;
@@ -48,12 +49,12 @@ public class MatchService {
     public MatchResponseDTO patch(UUID id, MatchPatchDTO dto) {
         MatchModel match = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Partida não encontrada"));
-    
+
         // Regra: se status já for FINISHED, bloqueia alterações
         if (match.getStatus() == MatchStatusEnum.FINISHED) {
-            throw new IllegalStateException("Partida finalizada não pode ser alterada.");
+            throw new MatchAlreadyFinishedException("Partida finalizada não pode ser alterada.");
         }
-    
+
         // Permitir alterações se não finalizada
         if (dto.getMatchDate() != null) match.setMatchDate(dto.getMatchDate());
         if (dto.getLocation() != null) match.setLocation(dto.getLocation());
@@ -61,12 +62,12 @@ public class MatchService {
         if (dto.getTeamB() != null) match.setTeamB(dto.getTeamB());
         if (dto.getScoreTeamA() != null) match.setScoreTeamA(dto.getScoreTeamA());
         if (dto.getScoreTeamB() != null) match.setScoreTeamB(dto.getScoreTeamB());
-    
+
         // Permitir alteração de status somente se não finalizado ainda
         if (dto.getStatus() != null) {
             match.setStatus(dto.getStatus());
         }
-    
+
         MatchModel updated = repository.save(match);
         return toDTO(updated);
     }

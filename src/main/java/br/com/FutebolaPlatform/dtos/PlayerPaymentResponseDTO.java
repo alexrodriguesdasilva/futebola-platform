@@ -26,5 +26,7 @@ public class PlayerPaymentResponseDTO {
     private String playerName;
     private PaymentCategoryEnum paymentCategory;
     private PaymentStatusEnum paymentStatus;
+    private UUID groupId;
+    private String groupName;
 }
 

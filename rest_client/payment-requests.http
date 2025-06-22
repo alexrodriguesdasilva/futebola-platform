@@ -1,29 +1,29 @@
-@userId = 820e9032-f009-4069-b306-9af3402815a6
+@paymentId = 820e9032-f009-4069-b306-9af3402815a6
+@playerId = 1651758c-e983-459e-9fca-13d5df607da9
+@groupId = 88b98f5f-2d71-4ef4-80c0-8f166da924f9
 
-### Get All payments
+### 🔎 Get All Payments
 GET http://localhost:8080/payments
 
-### Get User By ID
-# Substitua o UUID abaixo pelo ID gerado na criação
-GET http://localhost:8080/payments/{{userId}}
+### 🔎 Get Payment by ID
+GET http://localhost:8080/payments/{{paymentId}}
 
-### Create payment
-# Rota para criar um novo pagamento
+### ➕ Create Payment
 POST http://localhost:8080/payments
 Content-Type: application/json
 
 {
-  "playerId": "1651758c-e983-459e-9fca-13d5df607da9",
-  "amount": "150.00",
+  "playerId": "{{playerId}}",
+  "amount": 150.00,
   "paymentDate": "2025-06-21",
   "paymentType": "PIX",
   "paymentCategory": "ONE_TIME",
-  "description": "Pagamento avulso por PIX"
+  "description": "Pagamento avulso por PIX",
+  "groupId": "{{groupId}}"
 }
 
-### Update User
-# Primeiro defina o userId acima com o ID gerado ao criar o usuário
-PATCH http://localhost:8080/payments/{{userId}}
+### 🛠️ Atualizar pagamento completo
+PATCH http://localhost:8080/payments/{{paymentId}}
 Content-Type: application/json
 
 {
@@ -32,17 +32,17 @@ Content-Type: application/json
   "paymentType": "CREDIT_CARD",
   "paymentCategory": "RECURRING",
   "description": "Atualização do pagamento",
-  "paymentStatus": "VALID"
+  "paymentStatus": "VALID",
+  "groupId": "{{groupId}}"
 }
 
-### Atualizando apenas um campo
-PATCH http://localhost:8080/payments/{{userId}}
+### ✏️ Atualizar apenas um campo
+PATCH http://localhost:8080/payments/{{paymentId}}
 Content-Type: application/json
 
 {
   "description": "Pagamento após vencimento"
 }
 
-### Delete User
-# Substitua o UUID abaixo pelo ID gerado na criação
-DELETE http://localhost:8080/payments/{{userId}}
+### ❌ Delete Payment
+DELETE http://localhost:8080/payments/{{paymentId}}

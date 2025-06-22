@@ -54,9 +54,9 @@ public class PlayerGroupModel {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    // // Um grupo pode ter Any pagamentos
-    // @OneToMany(mappedBy = "playerGroupModel", fetch = FetchType.LAZY)
-    // private Set<PlayerPaymentModel> payments = new HashSet<>();
+    // Um grupo pode ter Any pagamentos
+    @OneToMany(mappedBy = "playerGroupModel", fetch = FetchType.LAZY)
+    private Set<PlayerPaymentModel> payments = new HashSet<>();
 
     // // Um grupo de jogadores pode ter várias partidas
     // @OneToMany(mappedBy = "playerGroupModel", fetch = FetchType.LAZY)

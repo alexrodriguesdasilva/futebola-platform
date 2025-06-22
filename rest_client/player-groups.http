@@ -1,0 +1,34 @@
+@groupId = 88b98f5f-2d71-4ef4-80c0-8f166da924f9
+
+### 🔎 Get All Groups
+GET http://localhost:8080/groups
+
+### 🔎 Get Group by ID
+GET http://localhost:8080/groups/{{groupId}}
+
+### ➕ Create Group
+POST http://localhost:8080/groups
+Content-Type: application/json
+
+{
+    "name": "Quartas da Bola",
+    "dayOfWeek": "WEDNESDAY",
+    "startTime": "20:00",
+    "endTime": "22:00",
+    "active": true
+}
+
+### 🛠️ Atualizar Grupo (PATCH)
+PATCH http://localhost:8080/groups/{{groupId}}
+Content-Type: application/json
+
+{
+    "name": "Quartas Bola FC",
+    "active": false
+}
+
+### ❌ Delete Group
+DELETE http://localhost:8080/groups/{{groupId}}
+
+### 🧾 Get Payments by Group ID
+GET http://localhost:8080/groups/{{groupId}}/payments

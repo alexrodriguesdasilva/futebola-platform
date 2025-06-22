@@ -56,12 +56,10 @@ public class PlayerPaymentModel {
     @Column(nullable = false)
     private PaymentStatusEnum paymentStatus = PaymentStatusEnum.VALID; // valor padrão
 
-    // FUTURO: Relacionamento com grupo (opcional)
-    /*
+    // Um Pagamento talvez pode ser feito para um grupo
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "player_group_id")
+    @JoinColumn(name = "group_id")
     private PlayerGroupModel playerGroupModel;
-    */
 
     // Um pagamento pode talvez está associado a uma partida
     @ManyToOne(fetch = FetchType.LAZY)

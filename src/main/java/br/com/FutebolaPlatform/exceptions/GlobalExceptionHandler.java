@@ -27,32 +27,28 @@ public class GlobalExceptionHandler {
     // 🔴 playerId não encontrado
     @ExceptionHandler(PlayerNotFoundException.class)
     public ResponseEntity<Map<String, String>> handlePlayerNotFound(PlayerNotFoundException ex) {
-        Map<String, String> error = new HashMap<>();
-        error.put("error", ex.getMessage());
+        Map<String, String> error = Map.of("error", ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
-    // 🔴 UUID malformado ou erro manual no service
+    // 🔴 UUID malformado ou erro manual no service (inclui groupId inválido ou grupo não encontrado)
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, String>> handleIllegalArgument(IllegalArgumentException ex) {
-        Map<String, String> error = new HashMap<>();
-        error.put("error", ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        Map<String, String> error = Map.of("error", ex.getMessage());
+        return ResponseEntity.badRequest().body(error);
     }
 
     // 🔴 Usuário não encontrado
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleUserNotFound(UserNotFoundException ex) {
-        Map<String, String> error = new HashMap<>();
-        error.put("error", ex.getMessage());
+        Map<String, String> error = Map.of("error", ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
     // 🔴 Usuário já vinculado a um jogador
     @ExceptionHandler(UserAlreadyLinkedToPlayerException.class)
     public ResponseEntity<Map<String, String>> handleUserAlreadyLinked(UserAlreadyLinkedToPlayerException ex) {
-        Map<String, String> error = new HashMap<>();
-        error.put("error", ex.getMessage());
+        Map<String, String> error = Map.of("error", ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
@@ -77,16 +73,29 @@ public class GlobalExceptionHandler {
     // 🔴 Tratamento para ResponseStatusException (ex: 404, 403 etc customizados)
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<Map<String, String>> handleResponseStatusException(ResponseStatusException ex) {
-        Map<String, String> error = new HashMap<>();
-        error.put("error", ex.getReason() != null ? ex.getReason() : "Erro não especificado");
+        Map<String, String> error = Map.of("error", ex.getReason() != null ? ex.getReason() : "Erro não especificado");
         return new ResponseEntity<>(error, ex.getStatusCode());
     }
 
     // ⚠️ Fallback para qualquer exceção não tratada
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleGenericException(Exception ex) {
-        Map<String, String> error = new HashMap<>();
-        error.put("error", "Erro interno do servidor: " + ex.getMessage());
+        Map<String, String> error = Map.of("error", "Erro interno do servidor: " + ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    // 🔴 Match já finalizada
+    @ExceptionHandler(MatchAlreadyFinishedException.class)
+    public ResponseEntity<Map<String, String>> handleMatchAlreadyFinished(MatchAlreadyFinishedException ex) {
+        Map<String, String> error = Map.of("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(error);
+    }
+
+    // 🔴 groupId não encontrado (PlayerGroupNotFoundException)
+    @ExceptionHandler(PlayerGroupNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handlePlayerGroupNotFound(PlayerGroupNotFoundException ex) {
+        Map<String, String> error = Map.of("error", ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
 }

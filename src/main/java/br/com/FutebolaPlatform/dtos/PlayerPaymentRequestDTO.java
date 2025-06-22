@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -34,4 +35,6 @@ public class PlayerPaymentRequestDTO {
         message = "Formato de ID do jogador inválido (UUID esperado)"
     )
     private String playerId;
+
+    private String groupId;
 }

@@ -24,7 +24,7 @@ Content-Type: application/json
 {
   "scoreTeamA": 2,
   "scoreTeamB": 3,
-  "status": "FINISHED"
+  "status": "ONGOING"
 }
 
 ### Deletar uma partida (DELETE /matches/{id})
